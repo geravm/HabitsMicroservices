@@ -1,0 +1,105 @@
+package database;
+
+import java.sql.*;  
+import java.util.ArrayList;
+
+
+public class DatabaseController {
+
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		String firstName = "Jimmy" ;
+		String lastName = "Jimmae" ;
+		String title = "EatAt2pm";
+		int id = 1;
+		String difficulty = "Easy";
+		String goodBad = "Good";
+		int score = 30;
+		String color = "Green";
+		String data = "NoData";
+		
+		createTable();
+		post(id, title, difficulty, goodBad, score, color, data);
+		System.out.println(get(1+""));
+		delete(1+"");
+		System.out.println(get(1+""));
+
+	}
+	public static ArrayList<String> get(int id) throws Exception{
+		try {
+			Connection con = getConnection();
+			PreparedStatement statement = con.prepareStatement("SELECT title,goodBad FROM theHabits WHERE id = '"+id+"';");
+			ResultSet result = statement.executeQuery();
+			ArrayList<String> array = new ArrayList<String>();
+			while(result.next()){
+				array.add(result.getString("title"));
+				array.add(result.getString("goodBad"));
+			}
+			return array;
+			} catch (Exception e){
+			System.out.println(e);
+		} finally{
+			System.out.println("Done");
+		}
+		return null;
+	}
+	
+	public static void delete(String id) throws Exception{
+		try {
+			Connection con = getConnection();
+			PreparedStatement posted = con.prepareStatement("DELETE FROM theHabits WHERE id = '"+id+"';");
+			posted.executeUpdate();
+		} catch (Exception e){
+			System.out.println(e);
+		}finally{
+			System.out.println("Done");
+		}
+	}
+	
+	public static void post(String id, String title, String difficulty, String goodBad, int score, String color, String data) throws Exception{
+
+		try {
+			Connection con = getConnection();
+			PreparedStatement posted = con.prepareStatement("insert into " + "theHabits(id, title, difficulty, goodBad, score, color, data) "+ "VALUES ('"+id+"', '"+title+"', '"+difficulty+"', '"+goodBad+"', '"+score+"', '"+color+"', '"+data+"')");
+			posted.executeUpdate();
+		}catch (Exception e){
+			System.out.println(e);
+		}finally{
+			System.out.println("hi");
+		}
+	}
+	
+	public static void createTable() throws Exception{
+		
+		try{
+			
+			Connection con = getConnection();
+			PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS theHabits(theID int NOT NULL AUTO_INCREMENT, id varchar(255), title varchar(255), difficulty varchar(255), goodBad varchar(255), score int, color varchar(255), data varchar(255), PRIMARY KEY(theID))");
+			create.executeUpdate();
+			System.out.println("I'm Here");
+			
+		} catch(Exception e){
+			
+			System.out.println(e);
+		} finally{
+			System.out.println("The end");
+		}
+	}
+	
+	public static Connection getConnection() throws Exception{
+		
+		try {
+			String driver = "com.mysql.cj.jdbc.Driver";
+			String url = "jdbc:mysql://localhost:3306/habits?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; //aquí se pondía una IP del servidor al que me conecté
+			String username = "root";
+			String password = "Azurill1_";
+			Class.forName(driver);
+			Connection con = DriverManager.getConnection(url, username, password);
+			return con;
+		} catch(Exception e){
+			System.out.println(e);
+		}
+		
+		return null;
+	}
+}

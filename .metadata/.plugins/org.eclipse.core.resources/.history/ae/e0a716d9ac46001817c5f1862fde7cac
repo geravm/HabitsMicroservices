@@ -1,0 +1,5 @@
+package com.in28minutes.springmvc;
+
+public class LoginController {
+
+}

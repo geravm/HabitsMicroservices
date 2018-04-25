@@ -1,0 +1,94 @@
+package database;
+
+import java.sql.*;  
+import java.util.ArrayList;
+
+
+public class Main {
+
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		final String var1 = "Jimmy" ;
+		final String var2 = "Jimmae" ;
+		createTable();
+		post(var1, var2);
+		get(1+"");
+
+	}
+	public static ArrayList<String> get(String id) throws Exception{
+		try {
+			Connection con = getConnection();
+			PreparedStatement statement = con.prepareStatement("SELECT first,last FROM tablename WHERE id = '"+id+"';");
+			ResultSet result = statement.executeQuery();
+			ArrayList<String> array = new ArrayList<String>();
+			while(result.next()){
+				array.add(result.getString("last"));
+			}
+			return array;
+			} catch (Exception e){
+			System.out.println(e);
+		} finally{
+			System.out.println("Done");
+		}
+		return null;
+	}
+	
+	public static void delete(String id) throws Exception{
+		try {
+			Connection con = getConnection();
+			PreparedStatement posted = con.prepareStatement("DELETE FROM tablename WHERE id = '"+id+"';");
+			posted.executeUpdate();
+		} catch (Exception e){
+			System.out.println(e);
+		}finally{
+			System.out.println("Done");
+		}
+	}
+	
+	public static void post(String name, String last) throws Exception{
+
+		try {
+			Connection con = getConnection();
+			PreparedStatement posted = con.prepareStatement("insert into tablename(first, last) VALUES ('"+name+"', '"+last+"')");
+			posted.executeUpdate();
+		}catch (Exception e){
+			System.out.println(e);
+		}finally{
+			System.out.println("Done");
+		}
+	}
+	
+	public static void createTable() throws Exception{
+		
+		try{
+			
+			Connection con = getConnection();
+			PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS tablename(id int NOT NULL AUTO_INCREMENT, first varchar(255), last varchar(255), PRIMARY KEY(id))");
+			create.executeUpdate();
+			System.out.println("I'm Here");
+			
+		} catch(Exception e){
+			
+			System.out.println(e);
+		} finally{
+			System.out.println("The end");
+		}
+	}
+	
+	public static Connection getConnection() throws Exception{
+		
+		try {
+			String driver = "com.mysql.cj.jdbc.Driver";
+			String url = "jdbc:mysql://localhost:3306/testdb?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; //aquí se pondía una IP del servidor al que me conecté
+			String username = "root";
+			String password = "Azurill1_";
+			Class.forName(driver);
+			Connection con = DriverManager.getConnection(url, username, password);
+			return con;
+		} catch(Exception e){
+			System.out.println(e);
+		}
+		
+		return null;
+	}
+}

@@ -1,0 +1,6 @@
+package habitComponents;
+
+public class Scoring {
+	String color = "Orange";
+	
+}

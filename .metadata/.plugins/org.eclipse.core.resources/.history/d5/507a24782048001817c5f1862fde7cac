@@ -1,0 +1,18 @@
+package habitComponents;
+
+import database.DatabaseController;
+
+public class Scoring {
+	private DatabaseController databaseControl = new DatabaseController();
+	String color = "Orange";
+	int idGenerator = 1;
+	
+	public static void main(String [ ] args){
+		
+	}
+	
+	public void createHabit(String userID, String title, String difficulty, String goodBad, int Score, String data){
+		
+	}
+	
+}
