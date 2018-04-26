@@ -136,7 +136,7 @@ public class DatabaseController {
 			String driver = "com.mysql.cj.jdbc.Driver";
 			String url = "jdbc:mysql://localhost:3306/habits?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; //aquí se pondía una IP del servidor al que me conecté
 			String username = "root";
-			String password = "Azurill1_";
+			String password = "password";
 			Class.forName(driver);
 			Connection con = DriverManager.getConnection(url, username, password);
 			return con;
